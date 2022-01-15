@@ -6,7 +6,11 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/).
 ## [Unreleased] - yyyy-mm-dd
 ...
 
- 
+## [0.2] - 2022-01-14
+
+### Added
+- screen background
+- programmatic layout
 
 ## [0.1] - 2022-01-14
 

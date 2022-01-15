@@ -17,17 +17,9 @@ A clone of the old DOS game [Pipes -- aka PipeMania](https://www.freegameempire.
 
 
 ## Milestones
-### v0.1
-- creazione progetto e git
-- salve mondo da BaseGame
-
-### v0.2
-- collocazione tile con click
-- background texture
-- layout schermo
 
 ### v0.3
-- passaggio del tempo
+- timer
 - preview tiles
 - full artwork
 - start screen
