@@ -7,9 +7,8 @@ public class GameBoard extends BaseActor {
     public static final int N_TILES_X = 10;
     public static final int N_TILES_Y = 7;
 
-    public GameBoard(int x, int y, Stage s) {
-        super(x , y, s);
-        setColor(Color.BLUE);
+    public GameBoard(float x, float y, Stage s) {
+        super(x, y, s);
 
         for (int i=0; i < N_TILES_X; i++) {
             for (int j = 0; j < N_TILES_Y; j++) {

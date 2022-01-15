@@ -18,11 +18,10 @@ public class GameTileContainer extends BaseActor {
 
     public GameTileContainer(int i, int j, Stage s) {
         super(i * TILE_SIZE, j * TILE_SIZE, s);
+        loadTexture("tile_empty.png");
+
         tileX = i;
         tileY = j;
-        setSize(TILE_SIZE, TILE_SIZE);
-        setColor(Color.GRAY);
-
 
         addListener(new InputListener() {
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
@@ -35,19 +34,6 @@ public class GameTileContainer extends BaseActor {
                 return true;
             }
         });
-
     }
 
-    @Override
-    public void draw(Batch batch, float parentAlpha) {
-/*        Color c = getColor();
-        batch.setColor(c);
-
-        shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
-        shapeRenderer.setColor(c);
-        shapeRenderer.rect(getX(), getY(), TILE_SIZE, TILE_SIZE);
-        shapeRenderer.end();
-*/
-        super.draw(batch, parentAlpha);
-    }
 }
