@@ -6,7 +6,7 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/).
 ## [Unreleased] - yyyy-mm-dd
 ...
 
-## [0.2] - 2022-01-17
+## [0.3] - 2022-01-17
 ### Added
 - preview tiles
 - full basic artwork
