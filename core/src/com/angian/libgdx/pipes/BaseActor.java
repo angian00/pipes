@@ -2,6 +2,7 @@ package com.angian.libgdx.pipes;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.Batch;
@@ -129,6 +130,24 @@ public class BaseActor extends Group {
         return list;
     }
 
+
+    public Animation<TextureRegion> createSolidTexture(int width, int height, Color color) {
+        Pixmap pixmap = new Pixmap(width, height, Pixmap.Format.RGBA8888);
+        pixmap.setColor(color);
+        pixmap.fillRectangle(0, 0, width, height);
+        Texture texture = new Texture(pixmap);
+        pixmap.dispose();
+
+        //for consistency with load* methods
+        Array<TextureRegion> textureArray = new Array<>();
+        textureArray.add(new TextureRegion(texture));
+        Animation<TextureRegion> anim = new Animation<TextureRegion>(1, textureArray);
+        anim.setPlayMode(Animation.PlayMode.LOOP);
+        if (animation == null)
+            setAnimation(anim);
+
+        return anim;
+    }
 
     public Animation<TextureRegion> loadTexture(String fileName) {
         String[] fileNames = { fileName };
