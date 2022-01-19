@@ -21,15 +21,7 @@ public enum PipeType {
     private static final Random rnd = new Random();
 
     public boolean isPlayable() {
-        return (
-                this == HORIZONTAL ||
-                        this == VERTICAL ||
-                        this == CROSS ||
-                        this == BEND_LEFT_UP ||
-                        this == BEND_UP_RIGHT ||
-                        this == BEND_RIGHT_DOWN ||
-                        this == BEND_DOWN_LEFT
-        );
+        return (isStraight() || isBend());
     }
 
     public boolean isSource() {
@@ -40,6 +32,24 @@ public enum PipeType {
                         this == SOURCE_DOWN
         );
     }
+
+    public boolean isStraight() {
+        return (
+                this == HORIZONTAL ||
+                this == VERTICAL ||
+                this == CROSS
+        );
+    }
+
+    public boolean isBend() {
+        return (
+                this == BEND_LEFT_UP ||
+                this == BEND_UP_RIGHT ||
+                this == BEND_RIGHT_DOWN ||
+                this == BEND_DOWN_LEFT
+        );
+    }
+
 
     public static PipeType randomPlayableType() {
         PipeType[] types = {

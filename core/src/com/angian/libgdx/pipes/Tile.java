@@ -12,6 +12,7 @@ public class Tile extends BaseActor {
     private final int tileY;
     private Pipe pipe;
 
+
     public Tile(Stage s) {
         this(null, -999, -999, s);
     }
@@ -50,7 +51,7 @@ public class Tile extends BaseActor {
 
         if (t != null) {
             pipe = new Pipe(t, getStage());
-            addActor(pipe);
+            this.addActor(pipe);
         }
     }
 }

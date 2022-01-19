@@ -5,12 +5,10 @@ A clone of the old DOS game [Pipes -- aka PipeMania](https://www.freegameempire.
 ## TODO
 ## Milestones
 
-### v0.4
-- acqua
-- fine gioco
 
 ### v0.5
 - levels
+- overwriting pipes
 - animations and polish:
   - small flash on newly added tiles
   - show better which tile is next

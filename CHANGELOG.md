@@ -6,6 +6,15 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/).
 ## [Unreleased] - yyyy-mm-dd
 ...
 
+## [0.4] - 2022-01-19
+### Added
+- water drawing
+- end level
+
+### Changed
+A few class names
+
+
 ## [0.3] - 2022-01-17
 ### Added
 - preview tiles

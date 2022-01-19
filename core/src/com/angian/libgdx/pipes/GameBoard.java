@@ -37,12 +37,12 @@ public class GameBoard extends BaseActor {
 
         for (int i=0; i < N_TILES_X; i++) {
             for (int j = 0; j < N_TILES_Y; j++) {
-                Tile gtc = new Tile(level, i, j, s);
+                Tile tile = new Tile(level, i, j, s);
                 if (i == iSource && j == jSource)
-                    gtc.setPipe(sourceType);
+                    tile.setPipe(sourceType);
 
-                addActor(gtc);
-                tiles[i][j] = gtc;
+                addActor(tile);
+                tiles[i][j] = tile;
             }
         }
 
@@ -68,8 +68,8 @@ public class GameBoard extends BaseActor {
 
 
     public PathItem followPipe(GridPoint2 fromPos, Direction fromDirection) {
-        Pipe fromTile = getTile(fromPos);
-        if (fromTile == null)
+        Pipe fromPipe = getPipe(fromPos);
+        if (fromPipe == null)
             return null;
 
         GridPoint2 toPos = new GridPoint2(fromPos.x, fromPos.y);
@@ -88,11 +88,11 @@ public class GameBoard extends BaseActor {
                 break;
         }
 
-        Pipe toTile = getTile(toPos);
-        if (toTile == null)
+        Pipe toPipe = getPipe(toPos);
+        if (toPipe == null)
             return null;
 
-        Direction nextDir = toTile.followPipe(fromDirection.flip());
+        Direction nextDir = toPipe.followPipe(fromDirection.flip());
 
         if (nextDir == null)
             return null;
@@ -105,7 +105,7 @@ public class GameBoard extends BaseActor {
         return sourcePos;
     }
 
-    public Pipe getTile(GridPoint2 pos) {
+    public Pipe getPipe(GridPoint2 pos) {
         if (pos.x < 0 || pos.x >= N_TILES_X || pos.y < 0 || pos.y >= N_TILES_Y)
             return null;
 

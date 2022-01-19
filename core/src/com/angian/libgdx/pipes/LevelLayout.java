@@ -31,6 +31,12 @@ public class LevelLayout {
     public static final Rectangle TIMER = new Rectangle(135, 380, 20, 500);
     public static final Color TIMER_COLOR = Color.ORANGE;
 
+
+    public static final int PIPE_INSIDE_SIZE = 30;
+    public static final int PIPE_BEND_RADIUS = 15;
+    public static final int PIPE_BEND_STRAIGHT_LEN = 50;
+
+
     public static Rectangle standard2gdxCoords(Rectangle layoutRect) {
         float flippedY = SCREEN_HEIGHT - layoutRect.y -layoutRect.height;
         return new Rectangle(layoutRect.x, flippedY, layoutRect.width, layoutRect.height);

@@ -8,6 +8,7 @@ import java.util.Map;
 public class Pipe extends BaseActor {
     private final PipeType type;
     private final Map<Direction, Boolean> validDirections;
+    private WaterInPipe waterInPipe;
 
 
     public Pipe(PipeType t, Stage s) {
@@ -84,6 +85,10 @@ public class Pipe extends BaseActor {
         loadTexture(tileFile);
     }
 
+    public PipeType getType() {
+        return type;
+    }
+
     public boolean isValidDirection(Direction dir) {
         return validDirections.get(dir);
     }
@@ -113,5 +118,15 @@ public class Pipe extends BaseActor {
         }
 
         return null;
+    }
+
+
+    public void setWaterLevel(float waterLevel, Direction from, Direction to) {
+        if (waterInPipe == null) {
+            waterInPipe = new WaterInPipe(this, from, to, getStage());
+            this.addActor(waterInPipe);
+        }
+
+        waterInPipe.setWaterLevel(waterLevel);
     }
 }

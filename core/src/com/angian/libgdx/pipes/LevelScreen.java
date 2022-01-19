@@ -77,7 +77,7 @@ public class LevelScreen extends BaseScreen {
             Tile tilePreview = new Tile(mainStage);
             tilePreview.setPosition(previewRect.x + 5, previewRect.y + 10 + (LevelLayout.TILE_SIZE + LevelLayout.TILE_PREVIEW_PADDING) * i);
             pipePreviews.add(tilePreview);
-            mainStage.addActor(tilePreview);
+            //mainStage.addActor(tilePreview);
         }
 
         nextPipes = new ArrayList<>();
@@ -90,7 +90,7 @@ public class LevelScreen extends BaseScreen {
         Rectangle timerRect = LevelLayout.standard2gdxCoords(LevelLayout.TIMER);
         waterTimer = new WaterTimer(waterStartTime, timerRect, mainStage);
         waterTimer.setColor(LevelLayout.TIMER_COLOR);
-        mainStage.addActor(waterTimer);
+        //mainStage.addActor(waterTimer);
 
 
         textOverlay = new Label("", Styles.labelStyle);
@@ -116,7 +116,7 @@ public class LevelScreen extends BaseScreen {
             //instantiate water
             System.out.println("Water is starting!");
             water = new Water(waterSpeed, board, mainStage);
-            mainStage.addActor(water);
+            //mainStage.addActor(water);
         }
 
         if (water != null) {
