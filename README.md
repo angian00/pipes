@@ -10,6 +10,7 @@ A clone of the old DOS game [Pipes -- aka PipeMania](https://www.freegameempire.
 - fine gioco
 
 ### v0.5
+- levels
 - animations and polish:
   - small flash on newly added tiles
   - show better which tile is next

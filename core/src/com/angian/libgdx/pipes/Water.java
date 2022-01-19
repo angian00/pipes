@@ -13,7 +13,7 @@ public class Water extends BaseActor {
     private final float speed;
     private final GameBoard board;
 
-    private final List<GameTile.PathItem> path;
+    private final List<PathItem> path;
     private float tileOccupation;
     private boolean stopped;
 
@@ -29,14 +29,14 @@ public class Water extends BaseActor {
         path = new ArrayList<>();
 
         GridPoint2 sourcePos = board.getSourcePos();
-        path.add(new GameTile.PathItem(sourcePos, board.getTile(sourcePos).anyValidDirection()));
+        path.add(new PathItem(sourcePos, board.getTile(sourcePos).anyValidDirection()));
     }
 
     public boolean isStopped() {
         return stopped;
     }
 
-    public List<GameTile.PathItem> getPath() {
+    public List<PathItem> getPath() {
         return path;
     }
 
@@ -48,8 +48,8 @@ public class Water extends BaseActor {
         tileOccupation += (speed * dt);
         if (tileOccupation >= TILE_CAPACITY) {
             //check next tile
-            GameTile.PathItem lastStep = path.get(path.size() - 1);
-            GameTile.PathItem nextStep = board.followPipe(lastStep.pos, lastStep.outDir);
+            PathItem lastStep = path.get(path.size() - 1);
+            PathItem nextStep = board.followPipe(lastStep.pos, lastStep.outDir);
             System.out.println("Water transitioning to a new tile");
 
             if (nextStep != null) {

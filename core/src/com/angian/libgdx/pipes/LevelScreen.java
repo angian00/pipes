@@ -24,7 +24,7 @@ public class LevelScreen extends BaseScreen {
     private Label scoreLabel;
     private Label distanceLabel;
 
-    private List<GameTileContainer> tilePreviews;
+    private List<Tile> pipePreviews;
     private WaterTimer waterTimer;
     private Water water;
 
@@ -32,7 +32,7 @@ public class LevelScreen extends BaseScreen {
     private int nAddedTiles = 0;
     private int score = 0;
 
-    private List<GameTile.TileType> nextTiles;
+    private List<PipeType> nextPipes;
 
     private Label textOverlay;
 
@@ -72,19 +72,19 @@ public class LevelScreen extends BaseScreen {
 
 
         Rectangle previewRect = LevelLayout.standard2gdxCoords(LevelLayout.TILE_PREVIEW);
-        tilePreviews = new ArrayList<>();
+        pipePreviews = new ArrayList<>();
         for (int i=0; i < N_NEXT_TILES; i++) {
-            GameTileContainer tilePreview = new GameTileContainer(mainStage);
+            Tile tilePreview = new Tile(mainStage);
             tilePreview.setPosition(previewRect.x + 5, previewRect.y + 10 + (LevelLayout.TILE_SIZE + LevelLayout.TILE_PREVIEW_PADDING) * i);
-            tilePreviews.add(tilePreview);
+            pipePreviews.add(tilePreview);
             mainStage.addActor(tilePreview);
         }
 
-        nextTiles = new ArrayList<>();
+        nextPipes = new ArrayList<>();
         for (int i=0; i < N_NEXT_TILES; i++) {
-            nextTiles.add(GameTile.randomPlayableType());
+            nextPipes.add(PipeType.randomPlayableType());
         }
-        updateTilePreview();
+        updatePipePreview();
 
 
         Rectangle timerRect = LevelLayout.standard2gdxCoords(LevelLayout.TIMER);
@@ -102,14 +102,14 @@ public class LevelScreen extends BaseScreen {
 
     @Override
     protected void update(float dt) {
-        int nAddedTilesNew = board.countTiles();
+        int nAddedTilesNew = board.countPipes();
         if (nAddedTilesNew > nAddedTiles) {
             nAddedTiles = nAddedTilesNew;
 
             //spawn new tile
-            nextTiles.remove(0);
-            nextTiles.add(GameTile.randomPlayableType());
-            updateTilePreview();
+            nextPipes.remove(0);
+            nextPipes.add(PipeType.randomPlayableType());
+            updatePipePreview();
         }
 
         if (waterTimer.isExpired() && water == null) {
@@ -140,15 +140,15 @@ public class LevelScreen extends BaseScreen {
         textOverlay.setVisible(true);
     }
 
-    private void updateTilePreview() {
+    private void updatePipePreview() {
         for (int i=0; i < N_NEXT_TILES; i++) {
-            GameTileContainer tilePreview = tilePreviews.get(i);
-            tilePreview.setTile(nextTiles.get(i));
+            Tile tilePreview = pipePreviews.get(i);
+            tilePreview.setPipe(nextPipes.get(i));
         }
     }
 
-    public GameTile.TileType getNextTile() {
-        return nextTiles.get(0);
+    public PipeType getNextPipe() {
+        return nextPipes.get(0);
     }
 
 }
