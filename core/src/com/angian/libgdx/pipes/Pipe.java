@@ -1,6 +1,9 @@
 package com.angian.libgdx.pipes;
 
+import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.scenes.scene2d.Action;
 import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -8,11 +11,12 @@ import java.util.Map;
 public class Pipe extends BaseActor {
     private final PipeType type;
     private final Map<Direction, Boolean> validDirections;
-    private WaterInPipe waterInPipe;
+    private final Map<Direction, WaterInPipe> waterMap = new HashMap<>(); //NB: only CROSS pipes have >1 waterInPipe children
 
 
     public Pipe(PipeType t, Stage s) {
         super(s);
+        setOpacity(0.0f);
 
         type = t;
         validDirections = new HashMap<>();
@@ -122,11 +126,28 @@ public class Pipe extends BaseActor {
 
 
     public void setWaterLevel(float waterLevel, Direction from, Direction to) {
+        WaterInPipe waterInPipe = waterMap.get(from);
+
         if (waterInPipe == null) {
             waterInPipe = new WaterInPipe(this, from, to, getStage());
+            waterMap.put(from, waterInPipe);
             this.addActor(waterInPipe);
         }
 
         waterInPipe.setWaterLevel(waterLevel);
+    }
+
+    public boolean hasWater() {
+        return (waterMap.size() > 0);
+    }
+
+    public void flashIn() {
+        float duration = 0.25f;
+
+        Action flashOut = Actions.parallel(
+                Actions.color(Color.WHITE, duration),
+                Actions.fadeIn(duration)
+        );
+        addAction(flashOut);
     }
 }

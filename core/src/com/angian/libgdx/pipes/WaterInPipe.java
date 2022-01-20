@@ -30,7 +30,7 @@ public class WaterInPipe extends BaseActor {
         super(s);
         fromDir = from;
         toDir = to;
-        setColor(Color.CYAN);  //TODO: external setting for color
+        setColor(LevelLayout.WATER_COLOR);
 
         pipe = p;
         waterLevel = 0;

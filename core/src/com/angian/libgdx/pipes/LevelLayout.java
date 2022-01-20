@@ -29,11 +29,11 @@ public class LevelLayout {
     public static final int TILE_PREVIEW_PADDING = 20;
 
     public static final Rectangle TIMER = new Rectangle(135, 380, 20, 500);
-    public static final Color TIMER_COLOR = Color.ORANGE;
+    public static final Color WATER_COLOR = Color.CYAN;
 
 
-    public static final int PIPE_INSIDE_SIZE = 30;
-    public static final int PIPE_BEND_RADIUS = 15;
+    public static final int PIPE_INSIDE_SIZE = 30 - 4;
+    public static final int PIPE_BEND_RADIUS = 15 - 2;
     public static final int PIPE_BEND_STRAIGHT_LEN = 50;
 
 

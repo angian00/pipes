@@ -11,13 +11,9 @@ import java.util.List;
 public class LevelScreen extends BaseScreen {
     private static final int N_NEXT_TILES = 5;
 
-    //TODO: vary with level
-    //private static final float waterStartTime = 20; //in seconds, time before water starts
-    private static final float waterStartTime = 5;
-    private static final float waterSpeed = 20; //px per second
-    private static final int scoreFactor = 100;
-    private static final int distance2win = 5;
-    //
+    private final int nLevel;
+    private final LevelParams params;
+    private final int startScore;
 
     private GameBoard board;
     private Label levelLabel;
@@ -28,13 +24,26 @@ public class LevelScreen extends BaseScreen {
     private WaterTimer waterTimer;
     private Water water;
 
-    private int nLevel = 1;
-    private int nAddedTiles = 0;
-    private int score = 0;
+    private int nWaterTiles = 0;
+    private int score;
+    private Runnable clickCallback;
+
 
     private List<PipeType> nextPipes;
 
     private Label textOverlay;
+
+
+    public LevelScreen() {
+        this(1, 0);
+    }
+
+    public LevelScreen(int _level, int _startScore) {
+        nLevel = _level;
+        startScore = _startScore;
+
+        params = LevelParams.get(nLevel);
+    }
 
 
     @Override
@@ -46,7 +55,7 @@ public class LevelScreen extends BaseScreen {
         Rectangle boardRect = LevelLayout.standard2gdxCoords(LevelLayout.BOARD);
         board = new GameBoard(this, boardRect.x, boardRect.y, mainStage);
 
-        levelLabel = new Label("level: 1", Styles.labelStyle);
+        levelLabel = new Label("level: x", Styles.labelStyle);
         levelLabel.setAlignment(LevelLayout.TEXT_LEVEL_ALIGN);
         Rectangle labelRect = LevelLayout.standard2gdxCoords(LevelLayout.TEXT_LEVEL);
         levelLabel.setPosition(labelRect.x, labelRect.y);
@@ -54,7 +63,7 @@ public class LevelScreen extends BaseScreen {
         levelLabel.setHeight(labelRect.height);
         mainStage.addActor(levelLabel);
 
-        scoreLabel = new Label("score: 0", Styles.labelStyle);
+        scoreLabel = new Label("score: x", Styles.labelStyle);
         scoreLabel.setAlignment(LevelLayout.TEXT_SCORE_ALIGN);
         labelRect = LevelLayout.standard2gdxCoords(LevelLayout.TEXT_SCORE);
         scoreLabel.setPosition(labelRect.x, labelRect.y);
@@ -62,7 +71,7 @@ public class LevelScreen extends BaseScreen {
         scoreLabel.setHeight(labelRect.height);
         mainStage.addActor(scoreLabel);
 
-        distanceLabel = new Label("distance: " + distance2win, Styles.labelStyle);
+        distanceLabel = new Label("distance: x", Styles.labelStyle);
         distanceLabel.setAlignment(LevelLayout.TEXT_DISTANCE_ALIGN);
         labelRect = LevelLayout.standard2gdxCoords(LevelLayout.TEXT_DISTANCE);
         distanceLabel.setPosition(labelRect.x, labelRect.y);
@@ -77,7 +86,6 @@ public class LevelScreen extends BaseScreen {
             Tile tilePreview = new Tile(mainStage);
             tilePreview.setPosition(previewRect.x + 5, previewRect.y + 10 + (LevelLayout.TILE_SIZE + LevelLayout.TILE_PREVIEW_PADDING) * i);
             pipePreviews.add(tilePreview);
-            //mainStage.addActor(tilePreview);
         }
 
         nextPipes = new ArrayList<>();
@@ -88,13 +96,11 @@ public class LevelScreen extends BaseScreen {
 
 
         Rectangle timerRect = LevelLayout.standard2gdxCoords(LevelLayout.TIMER);
-        waterTimer = new WaterTimer(waterStartTime, timerRect, mainStage);
-        waterTimer.setColor(LevelLayout.TIMER_COLOR);
-        //mainStage.addActor(waterTimer);
+        waterTimer = new WaterTimer(timerRect, mainStage);
+        waterTimer.setColor(LevelLayout.WATER_COLOR);
 
 
-        textOverlay = new Label("", Styles.labelStyle);
-        textOverlay.setFontScale(4.0f);
+        textOverlay = new Label("", Styles.titleStyle);
         textOverlay.setColor(Color.ORANGE);
         textOverlay.setVisible(false);
         uiTable.add(textOverlay).center();
@@ -102,29 +108,26 @@ public class LevelScreen extends BaseScreen {
 
     @Override
     protected void update(float dt) {
-        int nAddedTilesNew = board.countPipes();
-        if (nAddedTilesNew > nAddedTiles) {
-            nAddedTiles = nAddedTilesNew;
+        if (!waterTimer.isStarted()) {
+            waterTimer.start(params.waterStartTime);
 
-            //spawn new tile
-            nextPipes.remove(0);
-            nextPipes.add(PipeType.randomPlayableType());
-            updatePipePreview();
+            levelLabel.setText("level: " + nLevel);
+            scoreLabel.setText("score: " + startScore);
+            distanceLabel.setText("distance: " + params.distance2win);
         }
 
         if (waterTimer.isExpired() && water == null) {
             //instantiate water
             System.out.println("Water is starting!");
-            water = new Water(waterSpeed, board, mainStage);
-            //mainStage.addActor(water);
+            water = new Water(params.waterStartSpeed, board, mainStage);
         }
 
         if (water != null) {
-            int nWaterTiles = water.getPath().size() - 1;
-            score = nWaterTiles * scoreFactor;
+            nWaterTiles = water.getPath().size() - 1;
+            score = startScore + nWaterTiles * params.scoreFactor;
             scoreLabel.setText("score: " + score);
 
-            int distance2go = distance2win - nWaterTiles;
+            int distance2go = params.distance2win - nWaterTiles;
             if (distance2go < 0)
                 distance2go = 0;
             distanceLabel.setText("distance: " + distance2go);
@@ -135,9 +138,33 @@ public class LevelScreen extends BaseScreen {
         }
     }
 
+    public void spawnPipe() {
+        nextPipes.remove(0);
+        nextPipes.add(PipeType.randomPlayableType());
+        updatePipePreview();
+    }
+
     private void endLevel() {
-        textOverlay.setText("Game over");
-        textOverlay.setVisible(true);
+        if (nWaterTiles < params.distance2win) {
+            textOverlay.setText("Game over");
+            //textOverlay.setSubtitle("Click to restart");
+            clickCallback = () -> PipesGame.setActiveScreen(new MenuScreen());
+            textOverlay.setVisible(true);
+        } else {
+            textOverlay.setText("Level complete");
+            //textOverlay.setSubtitle("Click to proceed to next level");
+            clickCallback = () -> PipesGame.setActiveScreen(new LevelScreen(nLevel + 1, score));
+            textOverlay.setVisible(true);
+        }
+    }
+
+    public boolean touchDown(int screenX, int screenY, int pointer, int button) {
+        if (clickCallback != null) {
+            clickCallback.run();
+            return true;
+        } else {
+            return false;
+        }
     }
 
     private void updatePipePreview() {

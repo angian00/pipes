@@ -9,6 +9,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Label;
 
 public class Styles {
     public static Label.LabelStyle labelStyle;
+    public static Label.LabelStyle titleStyle;
 
     static {
         initStyles();
@@ -22,10 +23,13 @@ public class Styles {
         fontParameters.minFilter = Texture.TextureFilter.Linear;
         fontParameters.magFilter = Texture.TextureFilter.Linear;
 
-        BitmapFont customFont;
-        customFont = fontGenerator.generateFont(fontParameters);
-
+        BitmapFont customFont = fontGenerator.generateFont(fontParameters);
         labelStyle = new Label.LabelStyle();
         labelStyle.font = customFont;
+
+        fontParameters.size = 3 * LevelLayout.TEXT_FONT_SIZE;
+        customFont = fontGenerator.generateFont(fontParameters);
+        titleStyle = new Label.LabelStyle();
+        titleStyle.font = customFont;
     }
 }

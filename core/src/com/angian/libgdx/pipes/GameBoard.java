@@ -49,24 +49,6 @@ public class GameBoard extends BaseActor {
 
     }
 
-
-    public int countPipes() {
-        int nTiles = 0;
-
-        for (Actor a: getChildren()) {
-            if (!(a instanceof Tile))
-                continue;
-
-            Tile gtc = (Tile) a;
-            if (gtc.getPipe() != null)
-                nTiles ++;
-        }
-
-        return nTiles;
-    }
-
-
-
     public PathItem followPipe(GridPoint2 fromPos, Direction fromDirection) {
         Pipe fromPipe = getPipe(fromPos);
         if (fromPipe == null)
@@ -116,16 +98,16 @@ public class GameBoard extends BaseActor {
         if (!type.isSource())
             return false;
 
-        if (i == 0 && type == PipeType.SOURCE_LEFT)
+        if (i < 2 && type == PipeType.SOURCE_LEFT)
             return false;
 
-        if (i == (N_TILES_X-1) && type == PipeType.SOURCE_RIGHT)
+        if (i >= (N_TILES_X-2) && type == PipeType.SOURCE_RIGHT)
             return false;
 
-        if (j == 0 && type == PipeType.SOURCE_DOWN)
+        if (j < 2 && type == PipeType.SOURCE_DOWN)
             return false;
 
-        if (j == (N_TILES_Y-1) && type == PipeType.SOURCE_UP)
+        if (j >= (N_TILES_Y-2) && type == PipeType.SOURCE_UP)
             return false;
 
         return true;

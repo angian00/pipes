@@ -6,6 +6,20 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/).
 ## [Unreleased] - yyyy-mm-dd
 ...
 
+## [0.5] - 2022-01-20
+### Added
+- multiple level structure
+- small flash animation on newly added tiles
+- highlight on mouse over clickable tile
+
+### Changed
+- Pipes can be overwritten if still empty of water
+
+### Fixed
+- crossing water paths in CROSS pipes
+- removed duplicate stage.addActor()
+
+
 ## [0.4] - 2022-01-19
 ### Added
 - water drawing
