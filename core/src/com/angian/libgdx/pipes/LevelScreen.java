@@ -1,6 +1,5 @@
 package com.angian.libgdx.pipes;
 
-import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 
@@ -26,12 +25,13 @@ public class LevelScreen extends BaseScreen {
 
     private int nWaterTiles = 0;
     private int score;
+    private boolean clicksDisabled = true;
     private Runnable clickCallback;
 
 
     private List<PipeType> nextPipes;
 
-    private Label textOverlay;
+    private TextOverlay textOverlay;
 
 
     public LevelScreen() {
@@ -84,7 +84,7 @@ public class LevelScreen extends BaseScreen {
         pipePreviews = new ArrayList<>();
         for (int i=0; i < N_NEXT_TILES; i++) {
             Tile tilePreview = new Tile(mainStage);
-            tilePreview.setPosition(previewRect.x + 5, previewRect.y + 10 + (LevelLayout.TILE_SIZE + LevelLayout.TILE_PREVIEW_PADDING) * i);
+            tilePreview.setPosition(previewRect.x + 5, previewRect.y + previewRect.height - 10 - (LevelLayout.TILE_SIZE + LevelLayout.TILE_PREVIEW_PADDING) * i);
             pipePreviews.add(tilePreview);
         }
 
@@ -100,10 +100,8 @@ public class LevelScreen extends BaseScreen {
         waterTimer.setColor(LevelLayout.WATER_COLOR);
 
 
-        textOverlay = new Label("", Styles.titleStyle);
-        textOverlay.setColor(Color.ORANGE);
-        textOverlay.setVisible(false);
-        uiTable.add(textOverlay).center();
+        textOverlay = new TextOverlay(this, uiStage);
+        textOverlay.countdown();
     }
 
     @Override
@@ -144,24 +142,39 @@ public class LevelScreen extends BaseScreen {
         updatePipePreview();
     }
 
+    public void enableClicks() {
+        clicksDisabled = false;
+    }
+
+    public void disableClicks() {
+        clicksDisabled = true;
+    }
+
     private void endLevel() {
         if (nWaterTiles < params.distance2win) {
-            textOverlay.setText("Game over");
-            //textOverlay.setSubtitle("Click to restart");
-            clickCallback = () -> PipesGame.setActiveScreen(new MenuScreen());
+            textOverlay.setTitle("Game over");
+            textOverlay.setSubtitle("Click to restart");
             textOverlay.setVisible(true);
+
+            clickCallback = () -> PipesGame.setActiveScreen(new LevelScreen());
+
         } else {
-            textOverlay.setText("Level complete");
-            //textOverlay.setSubtitle("Click to proceed to next level");
-            clickCallback = () -> PipesGame.setActiveScreen(new LevelScreen(nLevel + 1, score));
+            textOverlay.setTitle("Level complete");
+            textOverlay.setSubtitle("Click to proceed to next level");
             textOverlay.setVisible(true);
+
+            clickCallback = () -> PipesGame.setActiveScreen(new LevelScreen(nLevel + 1, score));
         }
     }
 
     public boolean touchDown(int screenX, int screenY, int pointer, int button) {
-        if (clickCallback != null) {
-            clickCallback.run();
+        if (clicksDisabled) {
             return true;
+        }
+
+        if (clickCallback != null) {
+                clickCallback.run();
+                return true;
         } else {
             return false;
         }
@@ -177,5 +190,4 @@ public class LevelScreen extends BaseScreen {
     public PipeType getNextPipe() {
         return nextPipes.get(0);
     }
-
 }

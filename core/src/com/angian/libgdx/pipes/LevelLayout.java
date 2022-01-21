@@ -25,7 +25,7 @@ public class LevelLayout {
     public static final Rectangle TEXT_DISTANCE = new Rectangle(960, TEXT_Y, 200, TEXT_HEIGHT);
     public static final int TEXT_DISTANCE_ALIGN = Align.right;
 
-    public static final Rectangle TILE_PREVIEW = new Rectangle(10, 180, 110, 600);
+    public static final Rectangle TILE_PREVIEW = new Rectangle(10, 380, 110, 500);
     public static final int TILE_PREVIEW_PADDING = 20;
 
     public static final Rectangle TIMER = new Rectangle(135, 380, 20, 500);

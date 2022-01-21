@@ -3,8 +3,16 @@
 The format is based on [Keep a Changelog](http://keepachangelog.com/).
 
 
-## [Unreleased] - yyyy-mm-dd
-...
+## [0.6] - 2022-01-21
+### Added
+- countdown on level start
+- speed increase inside level
+- created logo
+
+### Changed
+- Improved level screen background
+- Moved tile preview order top-to-bottom
+
 
 ## [0.5] - 2022-01-20
 ### Added

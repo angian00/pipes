@@ -8,24 +8,29 @@ import java.util.List;
 
 public class Water extends BaseActor {
     private static final float PIPE_CAPACITY = 100.0f;
+    private static final float SPEED_INCREASE_TIME = 3.0f;
 
-    private final float speed;
     private final GameBoard board;
 
+    private final float startSpeed;
     private final List<PathItem> path;
     private float pipeOccupation;
     private boolean stopped;
+    private float speed;
+    private float time2increase;
 
 
     public Water(float sp, GameBoard b, Stage s) {
         super(s);
-        speed = sp;
+        startSpeed = sp;
+        speed = startSpeed;
         board = b;
 
         pipeOccupation = PIPE_CAPACITY / 2;  // water starts from the center of source tile
         stopped = false;
 
         path = new ArrayList<>();
+        time2increase = 0;
 
         GridPoint2 sourcePos = board.getSourcePos();
         path.add(new PathItem(sourcePos, board.getPipe(sourcePos).anyValidDirection()));
@@ -49,10 +54,10 @@ public class Water extends BaseActor {
             //check next tile
             PathItem lastStep = path.get(path.size() - 1);
             PathItem nextStep = board.followPipe(lastStep.pos, lastStep.outDir);
-            System.out.println("Water transitioning to a new tile");
+            //System.out.println("Water transitioning to a new tile");
 
             if (nextStep != null) {
-                System.out.println("Added new step to water path: " + nextStep);
+                //System.out.println("Added new step to water path: " + nextStep);
                 path.add(nextStep);
                 pipeOccupation -= PIPE_CAPACITY;
             } else {
@@ -73,6 +78,12 @@ public class Water extends BaseActor {
                 pipe.setWaterLevel(pipeOccupation / PIPE_CAPACITY, fromDir, toDir);
 
             fromDir = toDir.flip();
+        }
+
+        time2increase += dt;
+        if (time2increase >= SPEED_INCREASE_TIME) {
+            time2increase -= SPEED_INCREASE_TIME;
+            speed += startSpeed / 4;
         }
     }
 
