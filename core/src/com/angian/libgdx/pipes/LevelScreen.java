@@ -106,18 +106,26 @@ public class LevelScreen extends BaseScreen {
 
     @Override
     protected void update(float dt) {
-        if (!waterTimer.isStarted()) {
+        if (waterTimer != null && !waterTimer.isStarted()) {
+            //first frame
             waterTimer.start(params.waterStartTime);
 
             levelLabel.setText("level: " + nLevel);
             scoreLabel.setText("score: " + startScore);
             distanceLabel.setText("distance: " + params.distance2win);
+
+
+            Sounds.startLevel();
         }
 
-        if (waterTimer.isExpired() && water == null) {
+        if (waterTimer != null && waterTimer.isExpired() && water == null) {
+            waterTimer.remove();
+            waterTimer = null;
+
             //instantiate water
             System.out.println("Water is starting!");
             water = new Water(params.waterStartSpeed, board, mainStage);
+            Sounds.startWater();
         }
 
         if (water != null) {
@@ -132,6 +140,8 @@ public class LevelScreen extends BaseScreen {
 
             if (water.isStopped()) {
                 endLevel();
+                water.remove();
+                water = null;
             }
         }
     }
@@ -156,12 +166,16 @@ public class LevelScreen extends BaseScreen {
             textOverlay.setSubtitle("Click to restart");
             textOverlay.setVisible(true);
 
+            Sounds.gameOver();
+
             clickCallback = () -> PipesGame.setActiveScreen(new LevelScreen());
 
         } else {
             textOverlay.setTitle("Level complete");
             textOverlay.setSubtitle("Click to proceed to next level");
             textOverlay.setVisible(true);
+
+            Sounds.winLevel();
 
             clickCallback = () -> PipesGame.setActiveScreen(new LevelScreen(nLevel + 1, score));
         }

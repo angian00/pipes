@@ -47,7 +47,7 @@ public class TextOverlay extends BaseActor {
 
 
     public void countdown() {
-        final float COUNTDOWN_STEP_DURATION = 0.2f;
+        final float COUNTDOWN_STEP_DURATION = 0.05f;
         setSubtitle("");
         setOpacity(0.0f);
         setVisible(true);
@@ -80,7 +80,7 @@ public class TextOverlay extends BaseActor {
                 Actions.run( () -> setTitle("Go!") ),
                 //Actions.run( () -> tone.play() ),
                 Actions.alpha(1),
-                Actions.delay(1),
+                Actions.delay(0.5f),
                 Actions.run(() -> title.setVisible(false)),
                 Actions.run(level::enableClicks)
         );

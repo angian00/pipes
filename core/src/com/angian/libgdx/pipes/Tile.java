@@ -3,6 +3,7 @@ package com.angian.libgdx.pipes;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 
 public class Tile extends BaseActor {
@@ -63,24 +64,62 @@ public class Tile extends BaseActor {
     }
 
     public void setPipe(PipeType t) {
+        boolean isOverwrite = false;
+
         if (pipe != null) {
             removeActor(pipe);
             pipe.remove();
+            pipe = null;
+
+            if (isBoardTile()) {
+                isOverwrite = true;
+            }
         }
 
-        if (t != null) {
-            if (isBoardTile() && !t.isSource())
-                level.spawnPipe();
-
-            pipe = new Pipe(t, getStage());
-            this.addActor(pipe);
-            pipe.setZIndex(0);  //border must be in front
-
-            if (isBoardTile())
-                pipe.flashIn();
+        if (isBoardTile() && !t.isSource()) {
+            level.spawnPipe();
+            if (isOverwrite)
+                explodeAndAddPipe(t);
             else
-                pipe.setOpacity(1.0f);
+                addPipe(t, true);
+        } else {
+            addPipe(t, false);
         }
+    }
+
+    private void explodeAndAddPipe(PipeType t) {
+        final float explosionDuration = 0.5f;
+        System.out.println("explodeAndAddPipe");
+
+        Sounds.crunch();
+
+        BaseActor explosion = new BaseActor(getStage());
+        explosion.loadTexture("explosion.png");
+        this.addActor(explosion);
+
+        Tile parentTile = this;
+        explosion.addAction(Actions.sequence(
+                Actions.run(level::disableClicks),
+                Actions.scaleTo(0.4f, 0.4f),
+                Actions.scaleTo(1.0f, 1.0f, explosionDuration),
+                Actions.run(() -> parentTile.addPipe(t, false)),
+                Actions.run(level::enableClicks),
+                Actions.removeActor()
+        ));
+
+    }
+
+    private void addPipe(PipeType t, boolean withEffects) {
+        System.out.println("addPipe");
+        pipe = new Pipe(t, getStage());
+        this.addActor(pipe);
+        pipe.setZIndex(0);  //border must be in front
+
+        if (withEffects) {
+            Sounds.plop();
+            pipe.flashIn();
+        } else
+            pipe.setOpacity(1.0f);
     }
 
     public boolean isClickable() {
@@ -90,4 +129,5 @@ public class Tile extends BaseActor {
     private boolean isBoardTile() {
         return (tileX >= 0 && tileY >= 0);
     }
+
 }

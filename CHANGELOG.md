@@ -2,6 +2,14 @@
 # Change Log
 The format is based on [Keep a Changelog](http://keepachangelog.com/).
 
+## [0.7] - 2022-01-22
+### Added
+- sound effects
+- explosion effect
+- inhibition period after overwriting pipe
+
+### Changed
+- made frame for next tile orange
 
 ## [0.6] - 2022-01-21
 ### Added

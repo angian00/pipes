@@ -10,6 +10,7 @@ public class PipesGame extends BaseGame {
 	public void create () {
 		super.create();
 
+		Sounds.initialize();
 		setActiveScreen(new MenuScreen());
 	}
 }
