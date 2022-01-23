@@ -1,6 +1,4 @@
 buildscript {
-    
-
     repositories {
         mavenLocal()
         mavenCentral()
@@ -9,8 +7,8 @@ buildscript {
         google()
     }
     dependencies {
-        
-
+        classpath 'org.wisepersist:gwt-gradle-plugin:1.0.13'
+        classpath 'org.gretty:gretty:3.0.2'
     }
 }
 
@@ -47,6 +45,23 @@ project(":desktop") {
         api "com.badlogicgames.gdx:gdx-backend-lwjgl:$gdxVersion"
         api "com.badlogicgames.gdx:gdx-platform:$gdxVersion:natives-desktop"
         compile "com.badlogicgames.gdx:gdx-freetype-platform:$gdxVersion:natives-desktop"
+    }
+}
+
+project(":html") {
+    apply plugin: "java-library"
+    apply plugin: "gwt"
+    apply plugin: "war"
+    apply plugin: "org.gretty"
+
+
+    dependencies {
+        implementation project(":core")
+        api "com.badlogicgames.gdx:gdx-backend-gwt:$gdxVersion"
+        api "com.badlogicgames.gdx:gdx:$gdxVersion:sources"
+        api "com.badlogicgames.gdx:gdx-backend-gwt:$gdxVersion:sources"
+        compile "com.badlogicgames.gdx:gdx-freetype-platform:$gdxVersion:natives-desktop"
+
     }
 }
 

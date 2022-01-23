@@ -101,21 +101,19 @@ public class LevelScreen extends BaseScreen {
 
 
         textOverlay = new TextOverlay(this, uiStage);
-        textOverlay.countdown();
+        //textOverlay.countdown();
     }
 
     @Override
     protected void update(float dt) {
-        if (waterTimer != null && !waterTimer.isStarted()) {
+        if (waterTimer != null && waterTimer.isInit()) {
             //first frame
-            waterTimer.start(params.waterStartTime);
-
             levelLabel.setText("level: " + nLevel);
             scoreLabel.setText("score: " + startScore);
             distanceLabel.setText("distance: " + params.distance2win);
 
-
-            Sounds.startLevel();
+            waterTimer.freeze();
+            textOverlay.countdown(() -> waterTimer.start(params.waterStartTime));
         }
 
         if (waterTimer != null && waterTimer.isExpired() && water == null) {

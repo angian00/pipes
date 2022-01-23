@@ -89,9 +89,6 @@ public class Tile extends BaseActor {
 
     private void explodeAndAddPipe(PipeType t) {
         final float explosionDuration = 0.5f;
-        System.out.println("explodeAndAddPipe");
-
-        Sounds.crunch();
 
         BaseActor explosion = new BaseActor(getStage());
         explosion.loadTexture("explosion.png");
@@ -99,6 +96,7 @@ public class Tile extends BaseActor {
 
         Tile parentTile = this;
         explosion.addAction(Actions.sequence(
+                Actions.run(Sounds::crunch),
                 Actions.run(level::disableClicks),
                 Actions.scaleTo(0.4f, 0.4f),
                 Actions.scaleTo(1.0f, 1.0f, explosionDuration),
@@ -110,7 +108,6 @@ public class Tile extends BaseActor {
     }
 
     private void addPipe(PipeType t, boolean withEffects) {
-        System.out.println("addPipe");
         pipe = new Pipe(t, getStage());
         this.addActor(pipe);
         pipe.setZIndex(0);  //border must be in front

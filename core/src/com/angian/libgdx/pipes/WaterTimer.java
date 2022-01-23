@@ -6,10 +6,16 @@ import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 
 public class WaterTimer extends BaseActor {
+    public enum Status {
+        INIT,
+        FREEZED,
+        STARTED,
+        EXPIRED,
+    }
+
     private float origTime;
     private float remainingTime;
-    private boolean started = false;
-    private boolean expired = false;
+    private Status status = Status.INIT;
     private float origHeight;
 
     private static ShapeRenderer shapeRenderer = new ShapeRenderer();
@@ -29,23 +35,31 @@ public class WaterTimer extends BaseActor {
     public void start(float time2water) {
         origTime = time2water;
         remainingTime = time2water;
-        started = true;
+        status = Status.STARTED;
+    }
+
+    public boolean isInit() {
+        return status == Status.INIT;
     }
 
     public boolean isStarted() {
-        return started;
+        return status == Status.STARTED;
     }
 
     public boolean isExpired() {
-        return expired;
+        return status == Status.EXPIRED;
+    }
+
+    public void freeze() {
+        status = Status.FREEZED;
     }
 
     @Override
     public void act(float dt) {
         remainingTime -= dt;
-        if (started && remainingTime <= 0) {
+        if (isStarted() && remainingTime <= 0) {
             remainingTime = 0;
-            expired = true;
+            status = Status.EXPIRED;
         }
 
         setHeight(origHeight * remainingTime / origTime);

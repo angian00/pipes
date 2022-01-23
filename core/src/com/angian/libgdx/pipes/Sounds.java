@@ -6,7 +6,10 @@ import com.badlogic.gdx.audio.Sound;
 public class Sounds {
     private static final float audioVolume = 1.0f;
 
-    private static Sound startLevel;
+    private static Sound countdown_3;
+    private static Sound countdown_2;
+    private static Sound countdown_1;
+    private static Sound countdown_go;
     private static Sound startWater;
     private static Sound winLevel;
     private static Sound gameOver;
@@ -15,7 +18,11 @@ public class Sounds {
 
 
     public static void initialize() {
-        startLevel = Gdx.audio.newSound(Gdx.files.internal("sounds/start_countdown.wav"));
+        countdown_3 = Gdx.audio.newSound(Gdx.files.internal("sounds/countdown_3.wav"));
+        countdown_2 = Gdx.audio.newSound(Gdx.files.internal("sounds/countdown_2.wav"));
+        countdown_1 = Gdx.audio.newSound(Gdx.files.internal("sounds/countdown_1.wav"));
+        countdown_go = Gdx.audio.newSound(Gdx.files.internal("sounds/countdown_go.wav"));
+
         startWater = Gdx.audio.newSound(Gdx.files.internal("sounds/start_water.wav"));
         winLevel = Gdx.audio.newSound(Gdx.files.internal("sounds/win_level.wav"));
         gameOver = Gdx.audio.newSound(Gdx.files.internal("sounds/game_over.wav"));
@@ -23,28 +30,37 @@ public class Sounds {
         crunch = Gdx.audio.newSound(Gdx.files.internal("sounds/crunch.wav"));
     }
 
-    public static void startLevel() {
-        startLevel.play(audioVolume);
+    public static void countdown_3() {
+        countdown_3.play();
+    }
+    public static void countdown_2() {
+        countdown_2.play();
+    }
+    public static void countdown_1() {
+        countdown_1.play();
+    }
+    public static void countdown_go() {
+        countdown_go.play();
     }
 
     public static void startWater() {
-        startWater.play(audioVolume);
+        startWater.play();
     }
 
     public static void winLevel() {
-        winLevel.play(audioVolume);
+        winLevel.play();
     }
 
     public static void gameOver() {
-        gameOver.play(audioVolume);
+        gameOver.play();
     }
 
     public static void plop() {
-        plop.play(audioVolume);
+        plop.play();
     }
 
     public static void crunch() {
-        crunch.play(audioVolume);
+        crunch.play();
     }
 
 }

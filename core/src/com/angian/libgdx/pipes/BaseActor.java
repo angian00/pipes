@@ -110,27 +110,6 @@ public class BaseActor extends Group {
         return worldBounds;
     }
 
-
-    public static List<BaseActor> getList(Stage stage, String className) {
-        List<BaseActor> list = new ArrayList<>();
-
-        Class theClass = null;
-
-        try {
-            theClass = Class.forName(className);
-        } catch (ClassNotFoundException e) {
-            e.printStackTrace();
-        }
-
-        for (Actor a: stage.getActors()) {
-            if (theClass.isInstance(a))
-                list.add((BaseActor)a);
-        }
-
-        return list;
-    }
-
-
     public Animation<TextureRegion> createSolidTexture(int width, int height, Color color) {
         Pixmap pixmap = new Pixmap(width, height, Pixmap.Format.RGBA8888);
         pixmap.setColor(color);

@@ -1,27 +1,11 @@
 # Pipes
 A clone of the old DOS game [Pipes -- aka PipeMania](https://www.freegameempire.com/games/Pipe), implemented with libgdx.
 
-
-## TODO
-## Milestones
-+ add timeout for replacing pipes
-
-
-### v0.8
-- porting to web
-- publishing (on itch.io?)
-
-### v1.x
-+ add obstacles for levels > n
-+ lower final score for overwritten pipes and unused pipes
-
-
 ## CREDITS
 The game has been developed using Java language and the [LibGDX library](https://libgdx.com/). 
 
 The graphics are original, as can be evinced by their primitive quality.
 
-### SOUNDS
 Most sound effects are based on free samples hosted on [freesound.org](https://freesound.org/).
 I have done only minor modifications (trimming, fadeouts, amplifying where needed).
 
@@ -30,7 +14,7 @@ In particular, I've used the following files, under a [Creative Commons 0](http:
 - [WinBanjo.wav](https://freesound.org/people/Fupicat/sounds/521640/) by Fupicat
 - [Videogame Death Sound](https://freesound.org/people/Fupicat/sounds/475347/) also by Fupicat
 
-This under a [CC Attribution](http://creativecommons.org/licenses/by/3.0/):
+This under a [Creative Commons Attribution](http://creativecommons.org/licenses/by/3.0/):
 - [lg earth5.wav](https://freesound.org/people/lgarrett/sounds/17149/) by lgarrett
 
 
@@ -43,3 +27,12 @@ https://www.youtube.com/watch?v=mpcsBZSDU_o&ab_channel=42DegreesCoaching).
 I believe this is covered by [Fair Use doctrine](https://en.wikipedia.org/wiki/Fair_use).
 
 If any copyright issues emerge, please contact me.
+
+
+
+## FUTURE features
+
+### v1.x
++ add obstacles for levels > n
++ score penalties for overwritten pipes and unused pipes
+

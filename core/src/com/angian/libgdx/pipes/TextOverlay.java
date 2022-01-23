@@ -46,7 +46,7 @@ public class TextOverlay extends BaseActor {
     }
 
 
-    public void countdown() {
+    public void countdown(Runnable callback) {
         final float COUNTDOWN_STEP_DURATION = 0.05f;
         setSubtitle("");
         setOpacity(0.0f);
@@ -56,33 +56,33 @@ public class TextOverlay extends BaseActor {
 
         Action countdown = Actions.sequence(
                 Actions.run( () -> setTitle("3") ),
-                //Actions.run( () -> blip.play() ),
+                Actions.run(Sounds::countdown_3),
                 Actions.alpha(1),
                 Actions.scaleTo(5.1f,5.1f, COUNTDOWN_STEP_DURATION),
-                //Actions.run( () -> blip.play() ),
                 Actions.scaleTo(1.0f,1.0f, COUNTDOWN_STEP_DURATION),
-                Actions.delay(0.5f),
+                //Actions.delay(0.5f),
                 Actions.fadeOut(0.5f - 2 * COUNTDOWN_STEP_DURATION),
                 Actions.run( () -> setTitle("2") ),
-                //Actions.run( () -> blip.play() ),
+                Actions.run(Sounds::countdown_2),
                 Actions.alpha(1),
                 Actions.scaleTo(5.1f,5.1f, COUNTDOWN_STEP_DURATION),
                 Actions.scaleTo(1.0f,1.0f, COUNTDOWN_STEP_DURATION),
-                Actions.delay(0.5f),
+                //Actions.delay(0.5f),
                 Actions.fadeOut(0.5f - 2 * COUNTDOWN_STEP_DURATION),
                 Actions.run( () -> setTitle("1") ),
-                //Actions.run( () -> blip.play() ),
+                Actions.run(Sounds::countdown_1),
                 Actions.alpha(1),
                 Actions.scaleTo(1.1f,1.1f, COUNTDOWN_STEP_DURATION),
                 Actions.scaleTo(1.0f,1.0f, COUNTDOWN_STEP_DURATION),
-                Actions.delay(0.5f),
+                //Actions.delay(0.5f),
                 Actions.fadeOut(0.5f - 2 * COUNTDOWN_STEP_DURATION),
                 Actions.run( () -> setTitle("Go!") ),
-                //Actions.run( () -> tone.play() ),
+                Actions.run(Sounds::countdown_go),
                 Actions.alpha(1),
-                Actions.delay(0.5f),
+                //Actions.delay(0.5f),
                 Actions.run(() -> title.setVisible(false)),
-                Actions.run(level::enableClicks)
+                Actions.run(level::enableClicks),
+                Actions.run(callback)
         );
 
         title.addAction(countdown);

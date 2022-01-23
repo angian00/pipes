@@ -2,6 +2,20 @@
 # Change Log
 The format is based on [Keep a Changelog](http://keepachangelog.com/).
 
+
+
+## [0.8] - 2022-01-23
+### Added
+- ported to html
+- published to [itch.io](https://angian00.itch.io/pipes)
+
+### Changed
+- moved to bitmap fonts to avoid GWT incompatibility
+- moved countdown sounds to Actions sequence 
+
+### Fixed
+- bug: water timer started before end of countdown
+
 ## [0.7] - 2022-01-22
 ### Added
 - sound effects
